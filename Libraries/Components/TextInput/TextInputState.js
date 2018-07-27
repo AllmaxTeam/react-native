@@ -20,18 +20,15 @@ const UIManager = require('UIManager');
 
 const inputs = new Set();
 
-const TextInputState = {
-  /**
-   * Internal state
-   */
-  _currentlyFocusedID: (null: ?number),
+let currentlyFocusedID: ?number = null;
 
+const TextInputState = {
   /**
    * Returns the ID of the currently focused text field, if one exists
    * If no text field is focused it returns null
    */
   currentlyFocusedField: function(): ?number {
-    return this._currentlyFocusedID;
+    return currentlyFocusedID;
   },
 
   /**
@@ -40,8 +37,8 @@ const TextInputState = {
    * noop if the text field was already focused
    */
   focusTextInput: function(textFieldID: ?number) {
-    if (this._currentlyFocusedID !== textFieldID && textFieldID !== null) {
-      this._currentlyFocusedID = textFieldID;
+    if (currentlyFocusedID !== textFieldID && textFieldID !== null) {
+      currentlyFocusedID = textFieldID;
       if (Platform.OS === 'ios') {
         UIManager.focus(textFieldID);
       } else if (Platform.OS === 'android') {
@@ -60,8 +57,8 @@ const TextInputState = {
    * noop if it wasn't focused
    */
   blurTextInput: function(textFieldID: ?number) {
-    if (this._currentlyFocusedID === textFieldID && textFieldID !== null) {
-      this._currentlyFocusedID = null;
+    if (currentlyFocusedID === textFieldID && textFieldID !== null) {
+      currentlyFocusedID = null;
       if (Platform.OS === 'ios') {
         UIManager.blur(textFieldID);
       } else if (Platform.OS === 'android') {
