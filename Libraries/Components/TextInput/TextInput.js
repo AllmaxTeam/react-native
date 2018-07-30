@@ -1200,6 +1200,10 @@ const TextInput = createReactClass({
 });
 
 class InternalTextInputType extends ReactNative.NativeComponent<Props> {
+  static State = {
+    currentlyFocusedField: () => {}
+  }
+
   clear() {}
 
   // $FlowFixMe
